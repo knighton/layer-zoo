@@ -8,7 +8,7 @@ from . import models
 def parse_flags():
     a = ArgumentParser()
     a.add_argument('--clf', type=str, default='BaselineClassifier2d:' + \
-                   'in_channels=3,out_dim=10,channels=128')
+                   'in_channels=3,out_dim=10,channels=64')
     a.add_argument('--dataset', type=str, default='cifar10')
     a.add_argument('--epochs', type=int, default=-1)
     a.add_argument('--train_batches_per_epoch', type=int, default=100)

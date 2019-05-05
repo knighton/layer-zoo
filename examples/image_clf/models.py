@@ -54,6 +54,18 @@ class Conv2dBlock(Sequence):
         )
 
 
+class Conv2dBlock(Sequence):
+    def __init__(self, channels, height, width):
+        super().__init__(
+            Hinge(),
+            nn.Conv2d(channels, channels // 8, 1, 1, 0),
+            nn.BatchNorm2d(channels // 8),
+            Hinge(),
+            nn.Conv2d(channels // 8, channels, 5, 1, 2),
+            nn.BatchNorm2d(channels),
+        )
+
+
 class DenseBlock(Sequence):
     def __init__(self, dim):
         super().__init__(
@@ -97,6 +109,15 @@ class DenseBlock(Sequence):
         choose = Choose(dense, describe, shuffled)
 
         super().__init__(choose)
+
+
+class DenseBlock(Sequence):
+    def __init__(self, dim):
+        super().__init__(
+            Describe(dim, dim * 4),
+            nn.Linear(dim * 4, dim),
+            nn.BatchNorm1d(dim),
+        )
 
 
 class BaselineClassifier2d(Classifier2d):
