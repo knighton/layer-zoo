@@ -39,6 +39,31 @@ class Conv2dBlock(Sequence):
         super().__init__(choose)
 
 
+class Conv2dBlock(Sequence):
+    def __init__(self, channels, height, width):
+        super().__init__(
+            Hinge(),
+            nn.Conv2d(channels, channels // 8, 1, 1, 0),
+            nn.BatchNorm2d(channels // 8),
+
+            Choose(
+                Noop(),
+                Shuffle(channels // 8),
+                Shuffle(channels // 8),
+            ),
+
+            Hinge(),
+            nn.Conv2d(channels // 8, channels, 5, 1, 2),
+            nn.BatchNorm2d(channels),
+
+            Choose(
+                Noop(),
+                Shuffle(channels),
+                Shuffle(channels),
+            ),
+        )
+
+
 class DenseBlock(Sequence):
     def __init__(self, dim):
         super().__init__(
