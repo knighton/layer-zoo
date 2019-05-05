@@ -64,6 +64,26 @@ class DenseBlock(Sequence):
         )
 
 
+class DenseBlock(Sequence):
+    def __init__(self, dim):
+        dense = Sequence(
+            Hinge(),
+            nn.Dropout(),
+            nn.Linear(dim, dim),
+            nn.BatchNorm1d(dim),
+        )
+
+        describe = Sequence(
+            Describe(dim, dim * 4),
+            nn.Linear(dim * 4, dim),
+            nn.BatchNorm1d(dim),
+        )
+
+        choose = Choose(dense, describe)
+
+        super().__init__(choose)
+
+
 class BaselineClassifier2d(Classifier2d):
     def __init__(self, in_channels, out_dim, channels):
         super().__init__(
