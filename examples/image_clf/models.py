@@ -113,11 +113,29 @@ class DenseBlock(Sequence):
 
 class DenseBlock(Sequence):
     def __init__(self, dim):
-        super().__init__(
+        linear = Sequence(
             Describe(dim, dim * 4),
             nn.Linear(dim * 4, dim),
             nn.BatchNorm1d(dim),
         )
+
+        choose = Sequence(
+            Describe(dim, dim * 4),
+            Reshape(4, dim),
+            ReduceChoose(1, 4),
+            nn.BatchNorm1d(dim),
+        )
+
+        lottery = Sequence(
+            Describe(dim, dim * 4),
+            Reshape(4, dim),
+            ReduceLottery(1, 4),
+            nn.BatchNorm1d(dim),
+        )
+
+        choose = Choose(linear, choose, lottery)
+
+        super().__init__(choose)
 
 
 class BaselineClassifier2d(Classifier2d):
