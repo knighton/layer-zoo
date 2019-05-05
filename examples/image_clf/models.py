@@ -17,6 +17,28 @@ class Conv2dBlock(Sequence):
         )
 
 
+class Conv2dBlock(Sequence):
+    def __init__(self, channels, height, width):
+        one = Sequence(
+            nn.ReLU(),
+            nn.Conv2d(channels, channels, 3, 1, 1),
+            nn.BatchNorm2d(channels),
+        )
+
+        two = Sequence(
+            nn.ReLU(),
+            nn.Conv2d(channels, channels // 8, 1, 1, 0),
+            nn.BatchNorm2d(channels // 8),
+            nn.ReLU(),
+            nn.Conv2d(channels // 8, channels, 5, 1, 2),
+            nn.BatchNorm2d(channels),
+        )
+
+        choose = Choose(one, two)
+
+        super().__init__(choose)
+
+
 class DenseBlock(Sequence):
     def __init__(self, dim):
         super().__init__(
