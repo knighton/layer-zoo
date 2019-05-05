@@ -25,7 +25,7 @@ class Shuffle(Layer):
         assert x.shape[self.axis] == self.in_dim
         return x.index_select(self.axis, self.indices)
 
-    def json_inner(self):
+    def summarize_inner(self):
         return {
             'in_dim': self.in_dim,
             'out_dim': self.out_dim,

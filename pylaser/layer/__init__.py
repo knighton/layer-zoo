@@ -1,5 +1,6 @@
 from .arch import *
 from .debug import *
+from .dense import *
 from .describe import *
 from .hinge import *
 from .order import *

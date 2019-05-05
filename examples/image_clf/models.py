@@ -79,7 +79,22 @@ class DenseBlock(Sequence):
             nn.BatchNorm1d(dim),
         )
 
-        choose = Choose(dense, describe)
+        shuffled = Choose(
+            WhileShuffled(dim, dim * 4, Sequence(
+                Hinge(),
+                nn.Dropout(),
+                ShardedDense(dim * 4, dim * 4, dim),
+                nn.BatchNorm1d(dim * 4),
+            )),
+            WhileShuffled(dim, dim * 4, Sequence(
+                Hinge(),
+                nn.Dropout(),
+                ShardedDense(dim * 4, dim * 4, dim),
+                nn.BatchNorm1d(dim * 4),
+            )),
+        )
+
+        choose = Choose(dense, describe, shuffled)
 
         super().__init__(choose)
 
