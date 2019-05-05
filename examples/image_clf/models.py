@@ -32,42 +32,42 @@ class BaselineClassifier2d(Classifier2d):
             nn.Conv2d(in_channels, channels, 3, 1, 1),
             nn.BatchNorm2d(channels),
 
-            Conv2dBlock(channels),
-            Conv2dBlock(channels),
+            Skip(Conv2dBlock(channels)),
+            Skip(Conv2dBlock(channels)),
 
             nn.MaxPool2d(2),
 
-            Conv2dBlock(channels),
-            Conv2dBlock(channels),
+            Skip(Conv2dBlock(channels)),
+            Skip(Conv2dBlock(channels)),
 
             nn.MaxPool2d(2),
 
-            Conv2dBlock(channels),
-            Conv2dBlock(channels),
+            Skip(Conv2dBlock(channels)),
+            Skip(Conv2dBlock(channels)),
 
             nn.MaxPool2d(2),
 
-            Conv2dBlock(channels),
-            Conv2dBlock(channels),
+            Skip(Conv2dBlock(channels)),
+            Skip(Conv2dBlock(channels)),
 
             Flatten(),
 
-            DenseBlock(channels * 16),
-            DenseBlock(channels * 16),
+            Skip(DenseBlock(channels * 16)),
+            Skip(DenseBlock(channels * 16)),
 
             Reshape(4, -1),
             nn.MaxPool1d(4),
             Flatten(),
 
-            DenseBlock(channels * 4),
-            DenseBlock(channels * 4),
+            Skip(DenseBlock(channels * 4)),
+            Skip(DenseBlock(channels * 4)),
 
             Reshape(4, -1),
             nn.MaxPool1d(4),
             Flatten(),
 
-            DenseBlock(channels),
-            DenseBlock(channels),
+            Skip(DenseBlock(channels)),
+            Skip(DenseBlock(channels)),
 
             nn.ReLU(),
             nn.Dropout(),
