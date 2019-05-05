@@ -8,10 +8,11 @@ class Classifier2d(Sequence):
 
 
 class Conv2dBlock(Sequence):
-    def __init__(self, channels):
+    def __init__(self, channels, height, width):
         super().__init__(
+            Append(Scatter2d(channels, channels, height, width)),
             nn.ReLU(),
-            nn.Conv2d(channels, channels, 3, 1, 1),
+            nn.Conv2d(channels * 2, channels, 3, 1, 1),
             nn.BatchNorm2d(channels),
         )
 
@@ -32,23 +33,23 @@ class BaselineClassifier2d(Classifier2d):
             nn.Conv2d(in_channels, channels, 3, 1, 1),
             nn.BatchNorm2d(channels),
 
-            Skip(Conv2dBlock(channels)),
-            Skip(Conv2dBlock(channels)),
+            Skip(Conv2dBlock(channels, 32, 32)),
+            Skip(Conv2dBlock(channels, 32, 32)),
 
             nn.MaxPool2d(2),
 
-            Skip(Conv2dBlock(channels)),
-            Skip(Conv2dBlock(channels)),
+            Skip(Conv2dBlock(channels, 16, 16)),
+            Skip(Conv2dBlock(channels, 16, 16)),
 
             nn.MaxPool2d(2),
 
-            Skip(Conv2dBlock(channels)),
-            Skip(Conv2dBlock(channels)),
+            Skip(Conv2dBlock(channels, 8, 8)),
+            Skip(Conv2dBlock(channels, 8, 8)),
 
             nn.MaxPool2d(2),
 
-            Skip(Conv2dBlock(channels)),
-            Skip(Conv2dBlock(channels)),
+            Skip(Conv2dBlock(channels, 4, 4)),
+            Skip(Conv2dBlock(channels, 4, 4)),
 
             Flatten(),
 
