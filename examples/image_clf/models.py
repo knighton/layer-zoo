@@ -11,7 +11,7 @@ class Conv2dBlock(Sequence):
     def __init__(self, channels, height, width):
         super().__init__(
             Append(Scatter2d(channels, channels, height, width)),
-            nn.ReLU(),
+            Hinge(),
             nn.Conv2d(channels * 2, channels, 3, 1, 1),
             nn.BatchNorm2d(channels),
         )
@@ -20,16 +20,16 @@ class Conv2dBlock(Sequence):
 class Conv2dBlock(Sequence):
     def __init__(self, channels, height, width):
         one = Sequence(
-            nn.ReLU(),
+            Hinge(),
             nn.Conv2d(channels, channels, 3, 1, 1),
             nn.BatchNorm2d(channels),
         )
 
         two = Sequence(
-            nn.ReLU(),
+            Hinge(),
             nn.Conv2d(channels, channels // 8, 1, 1, 0),
             nn.BatchNorm2d(channels // 8),
-            nn.ReLU(),
+            Hinge(),
             nn.Conv2d(channels // 8, channels, 5, 1, 2),
             nn.BatchNorm2d(channels),
         )
@@ -42,7 +42,7 @@ class Conv2dBlock(Sequence):
 class DenseBlock(Sequence):
     def __init__(self, dim):
         super().__init__(
-            nn.ReLU(),
+            Hinge(),
             nn.Dropout(),
             nn.Linear(dim, dim),
             nn.BatchNorm1d(dim),
@@ -92,7 +92,7 @@ class BaselineClassifier2d(Classifier2d):
             Skip(DenseBlock(channels)),
             Skip(DenseBlock(channels)),
 
-            nn.ReLU(),
+            Hinge(),
             nn.Dropout(),
             nn.Linear(channels, out_dim),
         )
