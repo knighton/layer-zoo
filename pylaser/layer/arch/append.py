@@ -1,13 +1,13 @@
 import torch
 
 from ..base import Layer, summarize
-from .sequence.sequence import Sequence
+from .iter.flow import Flow
 
 
 class Append(Layer):
     def __init__(self, *inner, axis=1):
         super().__init__()
-        self.inner = Sequence(*inner)
+        self.inner = Flow(*inner)
         self.axis = axis
 
     def forward_inner(self, x):

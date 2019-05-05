@@ -3,7 +3,7 @@ from torch import nn
 
 from ...util.math import inverse_sigmoid
 from ..base import Layer, summarize
-from .sequence.sequence import Sequence
+from .iter.flow import Flow
 
 
 class Skip(Layer):
@@ -15,7 +15,7 @@ class Skip(Layer):
         x = inverse_sigmoid(x)
         self.usage = nn.Parameter(x)
 
-        self.inner = Sequence(*inner)
+        self.inner = Flow(*inner)
 
     def forward_inner(self, x):
         usage = self.usage.sigmoid()

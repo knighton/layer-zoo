@@ -45,7 +45,7 @@ class WhileShuffled(Layer):
 
     def summarize_inner(self, num_percentiles=20):
         if self.inner:
-            inner = self.inner.summarize(num_percentiles)
+            inner = summarize(self.inner, num_percentiles)
         else:
             inner = None
         return {
@@ -54,5 +54,5 @@ class WhileShuffled(Layer):
             'num_repeats': self.num_repeats,
             'axis': self.axis,
             'inner': inner,
-            'reduce': self.reduce.summarize(num_percentiles),
+            'reduce': summarize(self.reduce, num_percentiles),
         }

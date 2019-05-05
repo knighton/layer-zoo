@@ -11,7 +11,7 @@ class Sample(Layer):
         self.out_dim = out_dim
         self.axis = axis
 
-        x = torch.randint(0, in_dim, (out_dim,))
+        x = torch.randint(in_dim, (out_dim,))
         self.register_buffer('indices', x)
 
     def forward_inner(self, x):

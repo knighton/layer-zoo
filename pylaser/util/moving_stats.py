@@ -65,4 +65,4 @@ class MovingStatistics(object):
         """
         Get moving summary statistics of the values.
         """
-        return summarize_numpy(self.sample, num_percentiles),
+        return summarize_numpy(self.sample, num_percentiles)
