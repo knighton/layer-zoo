@@ -46,21 +46,11 @@ class Conv2dBlock(Sequence):
             nn.Conv2d(channels, channels // 8, 1, 1, 0),
             nn.BatchNorm2d(channels // 8),
 
-            Choose(
-                Noop(),
-                Shuffle(channels // 8),
-                Shuffle(channels // 8),
-            ),
+            Append(SkewedSample(channels // 8, channels // 8, 2)),
 
             Hinge(),
-            nn.Conv2d(channels // 8, channels, 5, 1, 2),
+            nn.Conv2d(channels // 4, channels, 5, 1, 2),
             nn.BatchNorm2d(channels),
-
-            Choose(
-                Noop(),
-                Shuffle(channels),
-                Shuffle(channels),
-            ),
         )
 
 
