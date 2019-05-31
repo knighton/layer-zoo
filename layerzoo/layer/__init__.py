@@ -1,5 +1,6 @@
 from .activ import *
 from .arch import *
+from .color import *
 from .debug import *
 from .dense import *
 from .describe import *
