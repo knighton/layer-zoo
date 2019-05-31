@@ -1,3 +1,3 @@
-# layerzoo
+# [layerzoo](https://github.com/knighton/layer-zoo/tree/master/layerzoo/layer)
 
-A collection of experimental neural network layers in pytorch, together with "batteries included" support code to demo them.
+### Experimental neural network layers in pytorch, together with "batteries included" support code to demo them.
