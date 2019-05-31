@@ -1,6 +1,6 @@
 from torch import nn
 
-from pylaser.layer import *
+from layerzoo.layer import *
 
 
 class Classifier2d(Flow):

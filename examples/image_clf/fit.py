@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
   
-from pylaser import datasets
-from pylaser.fit.classifier import fit
+from layerzoo import datasets
+from layerzoo.fit.classifier import fit
 from . import models
 
 

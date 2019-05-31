@@ -32,42 +32,42 @@ class Layer(nn.Module):
     def __init__(self, time_stats_size=1000, time_stats_rate=0.01,
                  time_stats_dtype=np.float32):
         super().__init__()
-        self._pylaser_in_spec = None
-        self._pylaser_out_spec = None
+        self._layerzoo_in_spec = None
+        self._layerzoo_out_spec = None
         new = lambda: MovingStatistics(time_stats_size, time_stats_rate,
                                        time_stats_dtype)
-        self._pylaser_train_time_stats = new()
-        self._pylaser_val_time_stats = new()
+        self._layerzoo_train_time_stats = new()
+        self._layerzoo_val_time_stats = new()
 
     def forward_inner(self, x):
         return x
 
     def forward(self, x):
         if isinstance(x, torch.Tensor):
-            if self._pylaser_in_spec is None:
-                self._pylaser_in_spec = TensorSpec.from_tensor(x)
+            if self._layerzoo_in_spec is None:
+                self._layerzoo_in_spec = TensorSpec.from_tensor(x)
             else:
-                assert self._pylaser_in_spec.accepts(x)
+                assert self._layerzoo_in_spec.accepts(x)
         else:
-            assert self._pylaser_in_spec is None
+            assert self._layerzoo_in_spec is None
 
         t = time()
         y = self.forward_inner(x)
         t = time() - t
 
         if self.training:
-            time_stats = self._pylaser_train_time_stats
+            time_stats = self._layerzoo_train_time_stats
         else:
-            time_stats = self._pylaser_val_time_stats
+            time_stats = self._layerzoo_val_time_stats
         time_stats.update(t)
 
         if isinstance(y, torch.Tensor):
-            if self._pylaser_out_spec is None:
-                self._pylaser_out_spec = TensorSpec.from_tensor(y)
+            if self._layerzoo_out_spec is None:
+                self._layerzoo_out_spec = TensorSpec.from_tensor(y)
             else:
-                assert self._pylaser_out_spec.accepts(y)
+                assert self._layerzoo_out_spec.accepts(y)
         else:
-            assert self._pylaser_out_spec is None
+            assert self._layerzoo_out_spec is None
 
         return y
 
@@ -75,12 +75,12 @@ class Layer(nn.Module):
         return None
 
     def summarize(self, num_percentiles=20):
-        if self._pylaser_in_spec:
-            in_spec = self._pylaser_in_spec.summarize()
+        if self._layerzoo_in_spec:
+            in_spec = self._layerzoo_in_spec.summarize()
         else:
             in_spec = None
-        if self._pylaser_out_spec:
-            out_spec = self._pylaser_out_spec.summarize()
+        if self._layerzoo_out_spec:
+            out_spec = self._layerzoo_out_spec.summarize()
         else:
             out_spec = None
         spec = {
@@ -88,8 +88,8 @@ class Layer(nn.Module):
             'out': out_spec,
         }
 
-        train_time = self._pylaser_train_time_stats.summarize(num_percentiles)
-        val_time = self._pylaser_val_time_stats.summarize(num_percentiles)
+        train_time = self._layerzoo_train_time_stats.summarize(num_percentiles)
+        val_time = self._layerzoo_val_time_stats.summarize(num_percentiles)
         time = {
             'train': train_time,
             'val': val_time,
