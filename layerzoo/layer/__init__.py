@@ -6,6 +6,7 @@ from .cuil import *
 from .debug import *
 from .dense import *
 from .describe import *
+from .grid_select import *
 from .order import *
 from .reduce import *
 from .scatter import *
