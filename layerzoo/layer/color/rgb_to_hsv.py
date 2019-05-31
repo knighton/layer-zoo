@@ -59,4 +59,4 @@ def compute_rgb_to_hsv(x, eps=1e-4):
 
 class RGBToHSV(Layer):
     def forward_inner(self, x):
-        return compute_rgb_to_hsv()
+        return compute_rgb_to_hsv(x)
