@@ -1,7 +1,7 @@
 import torch
 
-from ..util.math import int_randn
-from .base import Layer
+from ...util.math import int_randn
+from ..base import Layer
 
 
 def make_indices1d(in_channels, out_channels, width, width_std):

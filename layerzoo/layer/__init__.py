@@ -7,9 +7,8 @@ from .debug import *
 from .dense import *
 from .describe import *
 from .gan import *
-from .grid_select import *
 from .knot import *
 from .order import *
 from .reduce import *
-from .scatter import *
 from .shape import *
+from .space import *

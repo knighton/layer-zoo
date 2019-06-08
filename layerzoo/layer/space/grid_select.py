@@ -3,7 +3,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-from .base import Layer
+from ..base import Layer
 
 
 class GridSelect(Layer):

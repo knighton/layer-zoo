@@ -2,8 +2,8 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-from ..util.layer import normalize_coords
-from .base import Layer
+from ...util.layer import normalize_coords
+from ..base import Layer
 
 
 class Blur2d(Layer):
